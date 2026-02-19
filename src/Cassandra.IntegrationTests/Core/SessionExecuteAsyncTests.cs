@@ -25,6 +25,14 @@ namespace Cassandra.IntegrationTests.Core
 {
     public class SessionExecuteAsyncTests : SimulacronTest
     {
+        public override void OneTimeSetUp()
+        {
+            base.OneTimeSetUp();
+            
+            const int minThreads = 32;
+            ThreadPool.SetMinThreads(minThreads, minThreads);
+        }
+
         [Test]
         public void SessionExecuteAsyncCQLQueryToSync()
         {
