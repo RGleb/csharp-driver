@@ -28,9 +28,13 @@ namespace Cassandra.IntegrationTests.Core
         public override void OneTimeSetUp()
         {
             base.OneTimeSetUp();
+
+            // https://github.com/mono/mono/issues/7988
+            ThreadPool.GetMaxThreads(out _, out _);
             
             const int minThreads = 32;
-            ThreadPool.SetMinThreads(minThreads, minThreads);
+            if (!ThreadPool.SetMinThreads(minThreads, minThreads))
+                throw new Exception("Failed to set min threads for thread pool");
         }
 
         [Test]
